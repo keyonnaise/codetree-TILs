@@ -10,7 +10,7 @@ let answer = 0;
 // 그리드 순회
 for (let y = 0; y < n; y++) {
     for (let x = 0; x < n; x++) {
-        for(let k = 0; k < n; k++) {
+        for(let k = 0; k < n * 2; k++) {
             const numberOfGold = mining(x, y, k);
             const cost = getCost(k);
             
