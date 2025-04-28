@@ -31,21 +31,15 @@ console.log(answer);
  * @description 범위 내 금의 개수를 반환합니다.
  */
 function mining(x, y, k) {
-    const xMin = x - k;
-    const xMax = x + k;
-    const yMin = y - k;
-    const yMax = y + k;
     let count = 0;
 
     for (let i = 0; i < n; i++) {
-        const diff = Math.abs(y - i);
-
-        if (yMin <= i && yMax >= i) {
-            for (let j = 0; j < n; j++) {
-                if (xMin + diff <= j && xMax - diff >= j) {
-                    const col = grid[i][j];
-                    count += col;
-                }
+        for (let j = 0; j < n; j++) {
+            // 현재 셀 (i, j)와 중심 (y, x) 사이의 맨해튼 거리 계산
+            const distance = Math.abs(i - y) + Math.abs(j - x);
+            // 거리가 k 이하이면 마름모 영역에 포함됨
+            if (distance <= k) {
+                count += grid[i][j]; // 해당 셀의 금 개수 더하기
             }
         }
     }
