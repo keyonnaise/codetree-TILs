@@ -14,7 +14,7 @@ for (let row = 0; row < n; row++) {
     for (let col = 0; col < n; col++) {
         let value = 0;
 
-        for (let distance1 = 1; distance1 < 5; distance1++) {
+        for (let distance1 = 1; distance1 < n; distance1++) {
             const [value1, row1, col1] = getNextValue(grid, row, col, distance1, 0);
 
             if (value1 === -1) {
@@ -22,7 +22,7 @@ for (let row = 0; row < n; row++) {
                 break;
             }
 
-            for (let distance2 = 1; distance2 < 5; distance2++) {
+            for (let distance2 = 1; distance2 < n; distance2++) {
                 const [value2, row2, col2] = getNextValue(grid, row1, col1, distance2, 1);
                 const [value3, row3, col3] = getNextValue(grid, row2, col2, distance1, 2);
                 const [value4] = getNextValue(grid, row3, col3, distance2, 3);
