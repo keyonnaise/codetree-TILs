@@ -24,7 +24,7 @@ function draw(x1, y1, x2, y2) {
     let result = 0;
     for (let i = x1; i <= x2; i++) {
         for (let j = y1; j <= y2; j++) {
-            if (grid[j][i] < 0) return;
+            if (grid[j][i] <= 0) return;
             result = (x2 - x1 + 1) * (y2 - y1 + 1);
         }
     }
