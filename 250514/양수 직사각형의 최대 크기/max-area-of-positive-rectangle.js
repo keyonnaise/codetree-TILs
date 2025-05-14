@@ -6,13 +6,13 @@ const grid = input.slice(1, n + 1).map(line => line.split(' ').map(Number));
 
 // Please Write your code here.
 
-let answer = 0;
+let answer = -1;
 
 for (let x1 = 0; x1 < m; x1++) {
     for (let y1 = 0; y1 < n; y1++) {
         for (let x2 = x1; x2 < m; x2++) {
             for (let y2 = y1; y2 < n; y2++) {
-                answer = Math.max(draw(x1, y1, x2, y2) || 0, answer);
+                answer = Math.max(draw(x1, y1, x2, y2) || -1, answer);
             }
         }
     }
