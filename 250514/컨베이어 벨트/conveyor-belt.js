@@ -5,23 +5,17 @@ const u = input[1].split(' ').map(Number);
 const d = input[2].split(' ').map(Number);
 
 // Please write your code here.
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+let count = 0;
 
-(async function() {
-    let count = 0;
+while (count !== t) {
+    move();
+    count++;
 
-    while (count !== t) {
-        await delay(1000);
-        
-        move();
-        count++;
-
-        if (count === t) {
-            console.log(u.join(" "));
-            console.log(d.join(" "));
-        }
+    if (count === t) {
+        console.log(u.join(" "));
+        console.log(d.join(" "));
     }
-})()
+}
 
 function move () {
     u.unshift(d.pop());
