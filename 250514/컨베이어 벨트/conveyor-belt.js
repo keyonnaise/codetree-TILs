@@ -5,6 +5,8 @@ const u = input[1].split(' ').map(Number);
 const d = input[2].split(' ').map(Number);
 
 // Please write your code here.
+const clonedU = u.slice(0, n);
+const clonedD = d.slice(0, n);
 let count = 0;
 
 while (count !== t) {
@@ -12,12 +14,12 @@ while (count !== t) {
     count++;
 
     if (count === t) {
-        console.log(u.join(" "));
-        console.log(d.join(" "));
+        console.log(clonedU.join(" "));
+        console.log(clonedD.join(" "));
     }
 }
 
 function move () {
-    u.unshift(d.pop());
-    d.unshift(u.pop());
+    clonedU.unshift(clonedD.pop());
+    clonedD.unshift(clonedU.pop());
 }
