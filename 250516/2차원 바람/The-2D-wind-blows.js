@@ -6,10 +6,10 @@ const grid = input.slice(1, 1 + n).map(line => line.split(" ").map(Number));
 const winds = input.slice(1 + n, 1 + n + q).map(line => line.split(" ").map(Number));
 
 // Please Write your code here.
-let answer;
+let answer = JSON.parse(JSON.stringify(grid));
 
 for ([r1, c1, r2, c2] of winds) {
-    const gridAfterRotation = rotateBoundary(answer || grid, r1, c1, r2, c2);
+    const gridAfterRotation = rotateBoundary(answer, r1, c1, r2, c2);
     answer = updateCellsWithAverages(gridAfterRotation, r1, c1, r2, c2);
 }
 
