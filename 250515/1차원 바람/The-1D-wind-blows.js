@@ -9,9 +9,11 @@ const winds = input.slice(1 + n, 1 + n + q).map(line => {
 });
 
 // Please write your code here.
+const fixedBuilding = building.map((floor) => floor.slice(0, m));
+
 for ([row, direction] of winds) {
     const index = row - 1;
-    building[index] = getShiftRowArray(building[index], direction);
+    fixedBuilding[index] = getShiftRowArray(fixedBuilding[index], direction);
     
     // 아래층으로 전파 처리
     let indexForLower = index - 1;
@@ -19,8 +21,8 @@ for ([row, direction] of winds) {
 
     // 빌딩 가장 아래층(0번 인덱스)에 도달할 때까지 반복
     while (indexForLower >= 0) {
-        if (canPropagateWind(building[indexForLower + 1], building[indexForLower])) {
-            building[indexForLower] = getShiftRowArray(building[indexForLower], directionForLower);
+        if (canPropagateWind(fixedBuilding[indexForLower + 1], fixedBuilding[indexForLower])) {
+            fixedBuilding[indexForLower] = getShiftRowArray(fixedBuilding[indexForLower], directionForLower);
             
             indexForLower--;
             directionForLower = getReversedDirection(directionForLower);
@@ -35,8 +37,8 @@ for ([row, direction] of winds) {
 
     // 빌딩 가장 위층(n - 1번 인덱스)에 도달할 때까지 반복
     while (indexForUpper < n) {
-        if (canPropagateWind(building[indexForUpper - 1], building[indexForUpper])) {
-            building[indexForUpper] = getShiftRowArray(building[indexForUpper], directionForUpper);
+        if (canPropagateWind(fixedBuilding[indexForUpper - 1], fixedBuilding[indexForUpper])) {
+            fixedBuilding[indexForUpper] = getShiftRowArray(fixedBuilding[indexForUpper], directionForUpper);
             
             indexForUpper++;
             directionForUpper = getReversedDirection(directionForUpper);
@@ -47,13 +49,16 @@ for ([row, direction] of winds) {
 }
 
 console.log(
-    building
+    fixedBuilding
         .map(floor => floor.join(" "))
         .join("\n")
 );
 
 function getShiftRowArray(array, direction) {
     const cloned = [...array];
+
+    if (array.length <= 1) {
+    };
     
     switch (direction) {
         // L: 오른쪽 끝 요소가 왼쪽 처음으로 이동
@@ -68,6 +73,7 @@ function getShiftRowArray(array, direction) {
             break;
         }
     }
+
     return cloned;
 }
 
