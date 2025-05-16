@@ -4,7 +4,7 @@ const input = fs.readFileSync(0).toString().trim().split('\n');
 const n = Number(input[0]);
 let grid = [];
 for (let i = 1; i <= n; i++) {
-    grid.push(input[i].split(' ').map(Number));
+    grid.push(input[i].trim().split(' ').map(Number));
 }
 
 const [r, c, m1, m2, m3, m4, dir] = input[n + 1].split(' ').map(Number);
