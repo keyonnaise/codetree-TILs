@@ -34,10 +34,26 @@ class LinkedList {
     tail;
     count;
 
-    constructor() {
-        this.head = null;
-        this.tail = null;
+    constructor(size) {
+        this.head = new Node(null);
+        this.tail = new Node(null);
         this.count = 0;
+
+        this.head.next = this.tail;
+        this.tail.prev = this.head;
+
+        let currentNode = this.head;
+        for (let i = 1; i <= size; i++) {
+            const newNode = new Node(i);
+            currentNode.next = newNode;
+            newNode.prev = currentNode;
+            newNode.next = this.tail;
+
+            this.tail.prev = newNode;
+            this.count++;
+
+            currentNode = newNode;
+        }
     }
 
     /**
@@ -86,10 +102,10 @@ class LinkedList {
      */
     toArray() {
         const result = [];
-        let current = this.head;
-        while (current) {
-            result.push(current.data);
-            current = current.next;
+        let iterNode = this.head.next;
+        while (iterNode !== this.tail) {
+            result.push(iterNode.data);
+            iterNode = iterNode.next;
         }
         return result;
     }
@@ -251,16 +267,13 @@ class LinkedList {
 }
 
 // 1. LinkedList 인스턴스 생성 및 초기화
-const linkedList = new LinkedList();
-for (let i = 0; i < n; i++) {
-    linkedList.append(i + 1);
-}
+const linkedList = new LinkedList(n);
 
 // 2. 외부 '포인터 맵' 생성
 // O(N)의 초기 순회 비용이 발생하지만, 쿼리 처리를 O(1)로 만들어줌
 const nodePointers = {};
-let currentNode = linkedList.head;
-while (currentNode) {
+let currentNode = linkedList.head.next;
+while (currentNode !== linkedList.tail) {
     nodePointers[currentNode.data] = currentNode;
     currentNode = currentNode.next;
 }
@@ -282,51 +295,26 @@ for (const [a, b, c, d] of commands) {
 
     // Case 1: 인접한 경우
     if (nextB === nodeC) {
-        if (prevA) {
-            prevA.next = nodeC
-        };
+        prevA.next = nodeC;
         nodeC.prev = prevA;
         nodeD.next = nodeA;
         nodeA.prev = nodeD;
         nodeB.next = nextD;
-        if (nextD) {
-            nextD.prev = nodeB
-        };
+        nextD.prev = nodeB;
     }
     // Case 2: 떨어진 경우
     else {
-        if (prevA) {
-            prevA.next = nodeC
-        };
+        prevA.next = nodeC;
         nodeC.prev = prevA;
-        if (nextB) {
-            nextB.prev = nodeD
-        };
         nodeD.next = nextB;
-        if (prevC) {
-            prevC.next = nodeA
-        };
+        nextB.prev = nodeD;
+        prevC.next = nodeA;
         nodeA.prev = prevC;
-        if (nextD) {
-            nextD.prev = nodeB
-        };
         nodeB.next = nextD;
-    }
-
-    // linkedList 객체의 head/tail 포인터 직접 갱신
-    if (prevA === null) {
-        linkedList.head = nodeC;
-    } else if (prevC === null) {
-        linkedList.head = nodeA;
-    }
-
-    if (nextB === null) {
-        linkedList.tail = nodeD;
-    } else if (nextD === null) {
-        linkedList.tail = nodeB;
+        nextD.prev = nodeB;
     }
 }
 
 // 4. 최종 결과 출력
 // 클래스의 toArray 메서드를 사용
-console.log(linkedList.toArray().join(" ").trim());
+console.log(linkedList.toArray().join(" "));
