@@ -252,11 +252,9 @@ class LinkedList {
 
 // 1. LinkedList 인스턴스 생성 및 초기화
 const linkedList = new LinkedList();
-linkedList.prepend(null);
 for (let i = 0; i < n; i++) {
     linkedList.append(i + 1);
 }
-linkedList.append(null);
 
 // 2. 외부 '포인터 맵' 생성
 // O(N)의 초기 순회 비용이 발생하지만, 쿼리 처리를 O(1)로 만들어줌
