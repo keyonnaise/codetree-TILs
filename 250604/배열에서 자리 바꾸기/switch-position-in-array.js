@@ -30,14 +30,14 @@ class Node {
  * @template T 리스트에 저장될 데이터의 타입
  */
 class LinkedList {
-    #head;
-    #tail;
-    #count;
+    head;
+    tail;
+    count;
 
     constructor() {
-        this.#head = null;
-        this.#tail = null;
-        this.#count = 0;
+        this.head = null;
+        this.tail = null;
+        this.count = 0;
     }
 
     /**
@@ -45,7 +45,7 @@ class LinkedList {
      * @returns {number} 리스트의 크기
      */
     getSize() {
-        return this.#count;
+        return this.count;
     }
 
     /**
@@ -55,24 +55,24 @@ class LinkedList {
      * @returns 해당 인덱스의 노드 또는 null
      */
     getNodeAt(index) {
-        if (this.isEmpty() || index < 0 || index > this.#count) {
+        if (this.isEmpty() || index < 0 || index > this.count) {
             return null;
         }
 
-        const middle = Math.floor(this.#count / 2);
+        const middle = Math.floor(this.count / 2);
         let current = null;
 
         // Case 1: 인덱스가 리스트의 앞부분에 가까울 경우 head에서부터 순방향 탐색
         if (index <= middle) {
-            current = this.#head;
+            current = this.head;
             for (let i = 0; i < index; i++) {
                 current = current ? current.next : null;
             }
         }
         // Case 2: 인덱스가 리스트의 뒷부분에 가까울 경우 tail에서부터 역방향 탐색
         else {
-            current = this.#tail;
-            for (let i = this.#count - 1; i > index; i--) {
+            current = this.tail;
+            for (let i = this.count - 1; i > index; i--) {
                 current = current ? current.prev : null;
             }
         }
@@ -86,7 +86,7 @@ class LinkedList {
      */
     toArray() {
         const result = [];
-        let current = this.#head;
+        let current = this.head;
         while (current) {
             result.push(current.data);
             current = current.next;
@@ -103,20 +103,20 @@ class LinkedList {
 
         // Case 1: 리스트가 비어있을 때
         if (this.isEmpty()) {
-            this.#head = newNode;
-            this.#tail = newNode;
+            this.head = newNode;
+            this.tail = newNode;
         }
         // Case 2: 리스트에 값이 있을 떄
         else {
-            if (this.#tail) {
-                this.#tail.next = newNode;
+            if (this.tail) {
+                this.tail.next = newNode;
             }
 
-            newNode.prev = this.#tail;
-            this.#tail = newNode;
+            newNode.prev = this.tail;
+            this.tail = newNode;
         }
 
-        this.#count += 1;
+        this.count += 1;
     }
 
     /**
@@ -128,20 +128,20 @@ class LinkedList {
 
         // Case 1: 리스트가 비어있을 때
         if (this.isEmpty()) {
-            this.#head = newNode;
-            this.#tail = newNode;
+            this.head = newNode;
+            this.tail = newNode;
         }
         // Case 2: 리스트에 값이 있을 떄
         else {
-            if (this.#head) {
-                this.#head.prev = newNode;
+            if (this.head) {
+                this.head.prev = newNode;
             }
 
-            newNode.next = this.#head;
-            this.#head = newNode;
+            newNode.next = this.head;
+            this.head = newNode;
         }
 
-        this.#count += 1;
+        this.count += 1;
     }
 
     /**
@@ -151,7 +151,7 @@ class LinkedList {
      * @returns 삽입 성공 시 true, 실패 시 false
      */
     insertAt(data, index) {
-        if (index < 0 || index > this.#count) {
+        if (index < 0 || index > this.count) {
             return false;
         }
 
@@ -160,7 +160,7 @@ class LinkedList {
             return true;
         }
 
-        if (index === this.#count) {
+        if (index === this.count) {
             this.append(data);
             return true;
         }
@@ -179,7 +179,7 @@ class LinkedList {
         newNode.prev = previousNode;
         currentNode.prev = newNode;
 
-        this.#count += 1;
+        this.count += 1;
         
         return true;
     }
@@ -190,7 +190,7 @@ class LinkedList {
      * @returns 삭제된 노드의 데이터 또는 실패 시 null
      */
     removeAt(index) {
-        if (this.isEmpty() || index < 0 || index >= this.#count) {
+        if (this.isEmpty() || index < 0 || index >= this.count) {
             return null;
         }
 
@@ -198,28 +198,28 @@ class LinkedList {
 
         // Case 1: 첫 번째 노드 삭제
         if (index === 0) {
-            removedNode = this.#head;
-            this.#head = this.#head ? this.#head.next : null;
+            removedNode = this.head;
+            this.head = this.head ? this.head.next : null;
             
-            if (this.#head) {
-                this.#head.prev = null;
+            if (this.head) {
+                this.head.prev = null;
             } 
             // 노드가 하나뿐이었던 경우
             else {
-                this.#tail = null;
+                this.tail = null;
             }
         }
         // Case 2: 마지막 노드 삭제
-        else if (index === this.#count - 1) {
-            removedNode = this.#tail;
-            this.#tail = this.#tail ? this.#tail.prev : null;
+        else if (index === this.count - 1) {
+            removedNode = this.tail;
+            this.tail = this.tail ? this.tail.prev : null;
 
-            if (this.#tail) {
-                this.#tail.next = null;
+            if (this.tail) {
+                this.tail.next = null;
             } 
             // 노드가 하나뿐이었던 경우 (이론상 index === 0에서 처리됨)
             else {
-                this.#head = null;
+                this.head = null;
             }
         }
         // Case 3: 중간 노드 삭제
@@ -236,7 +236,7 @@ class LinkedList {
             nextNode.prev = previousNode;
         }
 
-        this.#count -= 1;
+        this.count -= 1;
 
         return removedNode ? removedNode.data : null;
     }
@@ -246,7 +246,7 @@ class LinkedList {
      * @returns {boolean} 리스트가 비어있으면 true, 아니면 false
      */
     isEmpty() {
-        return this.#count === 0;
+        return this.count === 0;
     }
 }
 
@@ -261,12 +261,12 @@ linkedList.append(null);
 // 2. 외부 '포인터 맵' 생성
 // O(N)의 초기 순회 비용이 발생하지만, 쿼리 처리를 O(1)로 만들어줌
 const nodePointers = {};
-for (let i = 1; i < linkedList.getSize() - 1; i++) {
-    const node = linkedList.getNodeAt(i);
-    if (node) {
-        nodePointers[node.data] = node;
-    }
+let currentNode = linkedList.head;
+while (currentNode) {
+    nodePointers[currentNode.data] = currentNode;
+    currentNode = currentNode.next;
 }
+
 
 // 3. Q개의 명령 처리
 for (const [a, b, c, d] of commands) {
@@ -284,26 +284,51 @@ for (const [a, b, c, d] of commands) {
 
     // Case 1: 인접한 경우
     if (nextB === nodeC) {
-        if (prevA) prevA.next = nodeC;
+        if (prevA) {
+            prevA.next = nodeC
+        };
         nodeC.prev = prevA;
         nodeD.next = nodeA;
         nodeA.prev = nodeD;
         nodeB.next = nextD;
-        if (nextD) nextD.prev = nodeB;
+        if (nextD) {
+            nextD.prev = nodeB
+        };
     }
     // Case 2: 떨어진 경우
     else {
-        if (prevA) prevA.next = nodeC;
+        if (prevA) {
+            prevA.next = nodeC
+        };
         nodeC.prev = prevA;
+        if (nextB) {
+            nextB.prev = nodeD
+        };
         nodeD.next = nextB;
-        if (nextB) nextB.prev = nodeD;
-        if (prevC) prevC.next = nodeA;
+        if (prevC) {
+            prevC.next = nodeA
+        };
         nodeA.prev = prevC;
+        if (nextD) {
+            nextD.prev = nodeB
+        };
         nodeB.next = nextD;
-        if (nextD) nextD.prev = nodeB;
+    }
+
+    // linkedList 객체의 head/tail 포인터 직접 갱신
+    if (prevA === null) {
+        linkedList.head = nodeC;
+    } else if (prevC === null) {
+        linkedList.head = nodeA;
+    }
+
+    if (nextB === null) {
+        linkedList.tail = nodeD;
+    } else if (nextD === null) {
+        linkedList.tail = nodeB;
     }
 }
 
 // 4. 최종 결과 출력
 // 클래스의 toArray 메서드를 사용
-console.log(linkedList.toArray().join(' ').trim());
+console.log(linkedList.toArray().join(" ").trim());
