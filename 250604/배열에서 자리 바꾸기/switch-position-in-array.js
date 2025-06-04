@@ -109,161 +109,6 @@ class LinkedList {
         }
         return result;
     }
-
-    /**
-     * 리스트의 끝에 새로운 노드를 추가합니다.
-     * @param data 추가할 데이터
-     */
-    append(data) {
-        const newNode = new Node(data);
-
-        // Case 1: 리스트가 비어있을 때
-        if (this.isEmpty()) {
-            this.head = newNode;
-            this.tail = newNode;
-        }
-        // Case 2: 리스트에 값이 있을 떄
-        else {
-            if (this.tail) {
-                this.tail.next = newNode;
-            }
-
-            newNode.prev = this.tail;
-            this.tail = newNode;
-        }
-
-        this.count += 1;
-    }
-
-    /**
-     * 리스트의 시작에 새로운 노드를 추가합니다.
-     * @param data 추가할 데이터
-     */
-    prepend(data) {
-        const newNode = new Node(data);
-
-        // Case 1: 리스트가 비어있을 때
-        if (this.isEmpty()) {
-            this.head = newNode;
-            this.tail = newNode;
-        }
-        // Case 2: 리스트에 값이 있을 떄
-        else {
-            if (this.head) {
-                this.head.prev = newNode;
-            }
-
-            newNode.next = this.head;
-            this.head = newNode;
-        }
-
-        this.count += 1;
-    }
-
-    /**
-     * 지정된 인덱스에 새로운 노드를 삽입합니다.
-     * @param data 삽입할 데이터
-     * @param index 삽입할 위치 (0부터 시작)
-     * @returns 삽입 성공 시 true, 실패 시 false
-     */
-    insertAt(data, index) {
-        if (index < 0 || index > this.count) {
-            return false;
-        }
-
-        if (index === 0) {
-            this.prepend(data);
-            return true;
-        }
-
-        if (index === this.count) {
-            this.append(data);
-            return true;
-        }
-
-        // index 위치의 기존 노드를 찾아 그 '앞'에 삽입
-        const currentNode = this.getNodeAt(index);
-        if (!currentNode || !currentNode.prev) {
-            return false;
-        }
-
-        const previousNode = currentNode.prev;
-        const newNode = new Node(data);
-
-        newNode.next = currentNode;
-        previousNode.next = newNode;
-        newNode.prev = previousNode;
-        currentNode.prev = newNode;
-
-        this.count += 1;
-        
-        return true;
-    }
-
-    /**
-     * 지정된 인덱스의 노드를 삭제하고 해당 노드의 데이터를 반환합니다.
-     * @param index 삭제할 노드의 인덱스 (0부터 시작)
-     * @returns 삭제된 노드의 데이터 또는 실패 시 null
-     */
-    removeAt(index) {
-        if (this.isEmpty() || index < 0 || index >= this.count) {
-            return null;
-        }
-
-        let removedNode = null;
-
-        // Case 1: 첫 번째 노드 삭제
-        if (index === 0) {
-            removedNode = this.head;
-            this.head = this.head ? this.head.next : null;
-            
-            if (this.head) {
-                this.head.prev = null;
-            } 
-            // 노드가 하나뿐이었던 경우
-            else {
-                this.tail = null;
-            }
-        }
-        // Case 2: 마지막 노드 삭제
-        else if (index === this.count - 1) {
-            removedNode = this.tail;
-            this.tail = this.tail ? this.tail.prev : null;
-
-            if (this.tail) {
-                this.tail.next = null;
-            } 
-            // 노드가 하나뿐이었던 경우 (이론상 index === 0에서 처리됨)
-            else {
-                this.head = null;
-            }
-        }
-        // Case 3: 중간 노드 삭제
-        else {
-            removedNode = this.getNodeAt(index);
-            if (!removedNode || !removedNode.prev || !removedNode.next) {
-                return null;
-            }
-
-            const previousNode = removedNode.prev;
-            const nextNode = removedNode.next;
-
-            previousNode.next = nextNode;
-            nextNode.prev = previousNode;
-        }
-
-        this.count -= 1;
-
-        return removedNode ? removedNode.data : null;
-    }
-
-    /**
-     * 리스트가 비어있는지 확인합니다.
-     * @returns {boolean} 리스트가 비어있으면 true, 아니면 false
-     */
-    isEmpty() {
-        return this.count === 0;
-    }
 }
 
 // 1. LinkedList 인스턴스 생성 및 초기화
@@ -297,21 +142,26 @@ for (const [a, b, c, d] of commands) {
     if (nextB === nodeC) {
         prevA.next = nodeC;
         nodeC.prev = prevA;
+
         nodeD.next = nodeA;
         nodeA.prev = nodeD;
+
         nodeB.next = nextD;
         nextD.prev = nodeB;
     }
     // Case 2: 떨어진 경우
     else {
-        prevA.next = nodeC;
-        nodeC.prev = prevA;
-        nodeD.next = nextB;
-        nextB.prev = nodeD;
         prevC.next = nodeA;
         nodeA.prev = prevC;
+
         nodeB.next = nextD;
         nextD.prev = nodeB;
+
+        prevA.next = nodeC;
+        nodeC.prev = prevA;
+
+        nodeD.next = nextB;
+        nextB.prev = nodeD;
     }
 }
 
