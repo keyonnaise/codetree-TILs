@@ -32,12 +32,10 @@ class Node {
 class LinkedList {
     head;
     tail;
-    count;
 
     constructor(size) {
         this.head = new Node(null);
         this.tail = new Node(null);
-        this.count = 0;
 
         this.head.next = this.tail;
         this.tail.prev = this.head;
@@ -48,52 +46,9 @@ class LinkedList {
             currentNode.next = newNode;
             newNode.prev = currentNode;
             newNode.next = this.tail;
-
             this.tail.prev = newNode;
-            this.count++;
-
             currentNode = newNode;
         }
-    }
-
-    /**
-     * 현재 리스트의 크기(노드 개수)를 반환합니다.
-     * @returns {number} 리스트의 크기
-     */
-    getSize() {
-        return this.count;
-    }
-
-    /**
-     * 지정된 인덱스의 노드를 반환합니다.
-     * 리스트의 중간 지점을 기준으로 head 또는 tail에서 탐색을 시작하여 최적화합니다.
-     * @param index 찾을 노드의 인덱스
-     * @returns 해당 인덱스의 노드 또는 null
-     */
-    getNodeAt(index) {
-        if (this.isEmpty() || index < 0 || index > this.count) {
-            return null;
-        }
-
-        const middle = Math.floor(this.count / 2);
-        let current = null;
-
-        // Case 1: 인덱스가 리스트의 앞부분에 가까울 경우 head에서부터 순방향 탐색
-        if (index <= middle) {
-            current = this.head;
-            for (let i = 0; i < index; i++) {
-                current = current ? current.next : null;
-            }
-        }
-        // Case 2: 인덱스가 리스트의 뒷부분에 가까울 경우 tail에서부터 역방향 탐색
-        else {
-            current = this.tail;
-            for (let i = this.count - 1; i > index; i--) {
-                current = current ? current.prev : null;
-            }
-        }
-
-        return current;
     }
 
     /**
@@ -149,7 +104,18 @@ for (const [a, b, c, d] of commands) {
         nodeB.next = nextD;
         nextD.prev = nodeB;
     }
-    // Case 2: 떨어진 경우
+    // Case 2: (C..D) 바로 다음에 (A..B)
+    else if (nextD === nodeA) {
+        prevC.next = nodeA;
+        nodeA.prev = prevC;
+
+        nodeB.next = nodeC;
+        nodeC.prev = nodeB;
+        
+        nodeD.next = nextB;
+        nextB.prev = nodeD;
+    }
+    // Case 3: 두 부분 리스트가 완전히 떨어진 경우
     else {
         prevC.next = nodeA;
         nodeA.prev = prevC;
